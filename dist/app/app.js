@@ -16,6 +16,29 @@ const logger = (req, res, next) => {
     console.log(req.url, req.method, req.hostname);
     next();
 };
+// Router
+const userRoute = express_1.default.Router(); //work as a Middleware that's why we need to use it
+const CourseRoute = express_1.default.Router();
+app.use("/api/v1/users", userRoute);
+app.use("/api/v1/Courses", CourseRoute);
+userRoute.get("/create-user", (req, res) => {
+    const user = req.body;
+    console.log(user);
+    res.json({
+        success: true,
+        message: "User is created Successfully",
+        user: user
+    });
+});
+CourseRoute.post("/create-course", (req, res) => {
+    const course = req.body;
+    console.log(course);
+    res.json({
+        success: true,
+        message: "course is created Successfully",
+        user: course
+    });
+});
 //dynamic route | http://localhost:5000/50/23
 app.get('/:userID/:subID', logger, (req, res) => {
     console.log(req.params);
