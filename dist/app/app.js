@@ -56,4 +56,30 @@ app.post('/', logger, (req, res) => {
         message: "Successfully Recived Data"
     });
 });
+//Error handeling | By default handler get a HTML error
+app.get('/error-handeling', logger, (req, res, next) => {
+    try {
+        res.send(something);
+    }
+    catch (error) {
+        //console.log(error)
+        next(error);
+    }
+});
+// global Route Error Handler
+app.use('*', (req, res) => {
+    res.status(404).json({
+        success: false,
+        message: "Route Not Found"
+    });
+});
+// global Error Handler
+app.use((error, req, res, next) => {
+    if (error) {
+        res.status(404).json({
+            success: false,
+            message: "Faild to load Data ----"
+        });
+    }
+});
 exports.default = app;

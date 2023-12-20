@@ -59,7 +59,6 @@ app.get('/',logger, (req : Request, res: Response) => {
   res.send('Hello Form Server!!!')
 })
 
-
 app.post('/',logger,(req : Request, res: Response)=>{
     console.log(req.body);
     // res.send("got data");
@@ -68,6 +67,39 @@ app.post('/',logger,(req : Request, res: Response)=>{
     })
 
 })
+
+//Error handeling | By default handler get a HTML error
+app.get('/error-handeling',logger, (req : Request, res: Response, next: NextFunction) => {
+    try {
+        res.send(something);
+    } catch (error) {
+        //console.log(error)
+        next(error)
+        
+    }
+    
+})
+
+// global Route Error Handler
+
+app.use('*', (req: Request, res: Response) =>{
+    res.status(404).json({
+        success: false,
+        message: "Route Not Found"
+    })
+})
+
+// global Error Handler
+app.use((error: any, req: Request, res: Response, next: NextFunction)=>{
+    if(error){
+        res.status(404).json({
+            success: false,
+            message: "Faild to load Data ----"
+        })
+    }
+});
+
+
 
 
 
